@@ -1,0 +1,27 @@
+In this task preson should learne how to create webserver using Flask library (Optional use django if you are more familiar with that). It s pure procedural programing using well defined data un json format. These data
+must be consumed and processed in different ways. We have a work with file creation of json output work with Postman (curl or other tool possible if prefered). Also you need to implement different REST
+endpoints which will provide outputs based on the task list bellow.
+
+Create Flask application running on port 5000 with following endpoint functionalities
+
+	1. Make a GET endpoint with name get-all-interfaces that will return all the interfaces from the file taks-1-interfaces.json. Return as a json
+	
+	2. Make a GET endpoint with name get-interface/<interface_name> that will return single interface from the file task-1-interfaces.Return as a json
+	
+	3. Make a POST request with name get-interfaces that will return several interfaces based on the input json:
+	
+		{
+			"input": {
+				"interfaces": [{
+					"name": "<interface_name>",     // optional
+					"type": "<some_type>",			// optional
+					"enabled": <true/false>,		// optional
+				}]
+			}
+		}
+		
+		Return as a json
+
+	4. Make a DELETE request with name delete-interface/<interface_name> that will delete one of the interfaces from the file. Return an information message that delete was succesfull/unsuccessfull
+	
+Analyze this task and in at most 1 to 2 hours write your extime on how much time you need to spend on this task to complete it
