@@ -1,0 +1,188 @@
+[
+    {
+        "description": "FE000",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/0",
+        "enabled": false,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/1",
+        "enabled": true,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": [
+                {
+                    "ip": "2000:500:5::1",
+                    "prefix-length": 48.0
+                }
+            ]
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/2",
+        "enabled": false,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": [
+                {
+                    "ip": "3.4.5.6",
+                    "netmask": "255.255.255.0"
+                }
+            ]
+        },
+        "name": "FastEthernet0/0/3",
+        "enabled": false,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": [
+                {
+                    "ip": "2003:500:5::1",
+                    "prefix-length": 48.0
+                }
+            ]
+        }
+    },
+    {
+        "description": "FEther3.9b",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/3.9",
+        "enabled": true,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/4",
+        "enabled": false,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/5",
+        "enabled": false,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/6",
+        "enabled": false,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "FastEthernet0/0/7",
+        "enabled": false,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "GE0",
+        "ietf-ip:ipv4": {
+            "address": [
+                {
+                    "ip": "10.22.52.245",
+                    "netmask": "255.255.255.192"
+                }
+            ]
+        },
+        "name": "GigabitEthernet0",
+        "enabled": true,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": [
+                {
+                    "ip": "2000:500:5::2",
+                    "prefix-length": 48.0
+                }
+            ]
+        }
+    },
+    {
+        "description": "Gig0.3",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "GigabitEthernet0.3",
+        "enabled": true,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": []
+        },
+        "name": "GigabitEthernet0.4",
+        "enabled": true,
+        "type": "ianaift:ethernetCsmacd",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    },
+    {
+        "description": "",
+        "ietf-ip:ipv4": {
+            "address": [
+                {
+                    "ip": "2.2.2.2",
+                    "netmask": "255.255.255.255"
+                }
+            ]
+        },
+        "name": "Loopback0",
+        "enabled": true,
+        "type": "ianaift:softwareLoopback",
+        "ietf-ip:ipv6": {
+            "address": []
+        }
+    }
+]
