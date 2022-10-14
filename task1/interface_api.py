@@ -12,12 +12,6 @@ class InterfaceAPI(Flask):
             interfaces = data['ietf-interfaces:interfaces']['interface']
             self.cache = {interface['name']: interface for interface in interfaces}
 
-    @staticmethod
-    def interface_conditions(interface_type, interface_enabled, interface, result):
-        if (interface_type is None or interface.get("type") == interface_type) and \
-                (interface_enabled is None or interface.get("enabled") == interface_enabled):
-            result.append(interface)
-
 
 app = InterfaceAPI(__name__)
 
@@ -46,11 +40,15 @@ def post_several_interfaces() -> Response:
         interface_name = input_interface.get("name")
         interface_type = input_interface.get("type")
         interface_enabled = input_interface.get("enabled")
-        if interface_by_name := app.cache.get(interface_name):
-            app.interface_conditions(interface_type, interface_enabled, interface_by_name, result)
+        if (interface_by_name := app.cache.get(interface_name)) and \
+                (interface_type is None or interface_by_name.get("type") == interface_type) and \
+                (interface_enabled is None or interface_by_name.get("enabled") == interface_enabled):
+            result.append(interface_by_name)
         else:
             for interface in all_interfaces:
-                app.interface_conditions(interface_type, interface_enabled, interface, result)
+                if (interface_type is None or interface.get("type") == interface_type) and \
+                        (interface_enabled is None or interface.get("enabled") == interface_enabled):
+                    result.append(interface)
     return jsonify(result)
 
 
