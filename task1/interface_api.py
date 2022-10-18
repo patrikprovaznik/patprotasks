@@ -1,7 +1,10 @@
 import http
 import json
-
+from configparser import ConfigParser
 from flask import Flask, jsonify, request, Response
+
+config = ConfigParser()
+config.read("flask_app_config.ini")
 
 
 class InterfaceAPI(Flask):
@@ -63,4 +66,5 @@ def delete_interface(interface_name: str) -> tuple[Response, int]:
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.config['SECRET_KEY'] = config['flask']['secret_key']
+    app.run(debug=True, host=config['flask']['host'], port=int(config['flask']['port']))
