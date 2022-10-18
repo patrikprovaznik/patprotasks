@@ -111,7 +111,7 @@ class InterfaceManager:
 
 interface_manager = InterfaceManager()
 interface_manager.write_all_data()
-interface_manager.analyze()
+
 
 # class CustomEncoder(json.JSONEncoder):
 #     def default(self, o):
