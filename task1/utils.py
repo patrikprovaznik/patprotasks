@@ -9,7 +9,7 @@ def get_logger(log_path, log_level):
     formatter = logging.Formatter(
         fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         datefmt="%Y-%m-%d_%H-%M-%S")
-    fh = logging.FileHandler(f"{log_path}")
+    fh = logging.FileHandler(f"{log_path}", mode="w")
     fh.setFormatter(formatter)
     fh.setLevel(level=logging.INFO)
 
@@ -17,4 +17,6 @@ def get_logger(log_path, log_level):
     return logger
 
 
-get_logger("/home/patrik/Documents/patprotasks", logging.INFO)
+logger = get_logger("/home/patrik/Documents/patprotasks/task1/logger.log", logging.INFO)
+
+logger.info(f'jeba')
