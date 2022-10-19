@@ -21,10 +21,6 @@ file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
 
-# logging.basicConfig(filename='interfaces.log', level=logging.INFO, filemode='w',
-#                     format="%(asctime)s - %(levelname)s - %(message)s")
-
-
 @dataclass
 class AddressIpv4Inside(DataClassJsonMixin):
     ip: str
@@ -111,47 +107,3 @@ class InterfaceManager:
 
 interface_manager = InterfaceManager()
 interface_manager.write_all_data()
-
-
-# class CustomEncoder(json.JSONEncoder):
-#     def default(self, o):
-#         return o.__dict__
-
-# class CustomEncoder(json.JSONEncoder):
-#     def default(self, o):
-#         return o.__dict__
-# def write_all_data(self):
-#     data = self.get_all_interfaces()
-#     with open('resource/all_data.json', 'w') as f:
-#         json.dump(data, f, ensure_ascii=False, indent=4, cls=CustomEncoder)
-#     return data
-
-# def get_all_interfaces(self):
-#     response = requests.get(self.api_url)
-#     required_data = []
-#     all_interfaces = response.json()
-#     for interface in all_interfaces:
-#         p_interface = Interface.schema().load(interface, unknown=EXCLUDE)
-#         required_data.append(p_interface)
-#     return required_data
-#
-# def write_all_data(self):
-#     data = self.get_all_interfaces()
-#     i_schema = Interface.schema()
-#     output = [i_schema.dump(d) for d in data]
-#     with open('resource/all_data.json', 'w') as f:
-#         json.dump(output, f, indent=4, ensure_ascii=False)
-#     return output
-# def logs(dataclass_data):
-#     output_data = [Interface.schema().dump(d) for d in dataclass_data]
-#     json.dumps(output_data) /nic nerobi
-#     enabled_count = 0
-#     types = {}
-#     for data in output_data:
-#         types[data['type']] = types.get(data['type'], 0) + 1
-#         if data['enabled']:
-#             enabled_count += 1
-#     logging.info(f'A total of {len(output_data)} interfaces were obtained.')
-#     logging.info(f'{enabled_count} of them is Enabled.')
-#     for key in types:
-#         logging.info(f'There are {types[key]} interfaces of type {key}.')
