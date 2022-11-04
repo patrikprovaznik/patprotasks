@@ -1,6 +1,7 @@
 import http
 import json
 from configparser import ConfigParser
+from typing import Tuple
 
 from flask import Flask, jsonify, request, Response
 
@@ -11,7 +12,8 @@ conf = ConfigParser()
 conf.read("flask_app_config.ini")
 
 # logger
-logger = get_logger(conf['general']['log_path_1'], conf['general']['log_level'])
+logger = get_logger(log_path=conf['general']['log_path_1'], log_name=conf['general']['log_name'],
+                    log_level=conf['general']['log_level'])
 
 
 class InterfaceAPI(Flask):
@@ -34,7 +36,7 @@ def get_all_interfaces() -> Response:
 
 
 @app.route('/get-interface/<path:interface_name>', methods=['GET'])
-def get_some_interface(interface_name: str) -> Response | tuple[Response, int]:
+def get_some_interface(interface_name: str) -> Response | Tuple[Response, int]:
     interface = app.cache.get(interface_name)
     if interface:
         return jsonify(interface)
@@ -69,7 +71,7 @@ def post_several_interfaces() -> Response:
 
 
 @app.route('/delete-interface/<path:interface_name>', methods=['DELETE'])
-def delete_interface(interface_name: str) -> tuple[Response, int]:
+def delete_interface(interface_name: str) -> Tuple[Response, int]:
     interface_deleted = app.cache.pop(interface_name, None)
     if interface_deleted:
         return jsonify({interface_name: {'info': 'DELETE WAS SUCCESSFUL'}}), http.HTTPStatus.OK
@@ -78,7 +80,11 @@ def delete_interface(interface_name: str) -> tuple[Response, int]:
             {interface_name: {'info': 'DELETE WAS UNSUCCESSFUL, interface does not exist'}}), http.HTTPStatus.NOT_FOUND
 
 
-if __name__ == '__main__':
+def main():
     app.config['SECRET_KEY'] = conf['flask']['secret_key']
     app.run(debug=bool(int(conf['general']['app_debug'])), host=conf['flask']['host'],
             port=int(conf['flask']['port']))
+
+
+if __name__ == '__main__':
+    main()

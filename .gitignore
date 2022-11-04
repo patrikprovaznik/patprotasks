@@ -1,4 +1,6 @@
 .idea/
 *.log
+logg_data.json
+output_data.json
 logs/
 output_folder/
