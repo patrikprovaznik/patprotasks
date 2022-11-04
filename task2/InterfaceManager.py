@@ -1,77 +1,52 @@
 import json
-import logging
-from dataclasses import dataclass, field
-from typing import List
+from typing import List, Dict
 
-import marshmallow as mm
 import requests
-from dataclasses_json import DataClassJsonMixin, config
-from marshmallow import fields, EXCLUDE
+from marshmallow import EXCLUDE
+
+from argument_parser import arg_pars
+from data_type import Interface
+from utils import get_logger
+
+# Argument parser
+args = arg_pars()
 
 # Logger
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-
-file_handler = logging.FileHandler('output_folder/interfaces.log', mode='w')
-file_handler.setLevel(logging.INFO)
-file_handler.setFormatter(formatter)
-
-logger.addHandler(file_handler)
+logger = get_logger(log_path=args.log_path, log_name=args.log_name, log_level=args.log_level)
 
 
-@dataclass
-class AddressIpv4Inside(DataClassJsonMixin):
-    ip: str
-    netmask: str
+def protocol(ssl):
+    if ssl:
+        return 'https'
+    else:
+        return 'http'
 
 
-@dataclass
-class AddressIpv6Inside(DataClassJsonMixin):
-    ip: str
-    prefix_length: int = field(
-        metadata=config(mm_field=mm.fields.Number(data_key='prefix-length')))
+def url_check(url):
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+    except Exception as e:
+        raise SystemExit(e)
 
 
-@dataclass
-class AddressIpv4(DataClassJsonMixin):
-    address: List[AddressIpv4Inside] = field(
-        metadata=config(mm_field=mm.fields.List(fields.Nested(AddressIpv4Inside.schema(unknown=mm.EXCLUDE)))),
-        default_factory=list)
-
-
-@dataclass
-class AddressIpv6(DataClassJsonMixin):
-    address: List[AddressIpv6Inside] = field(
-        metadata=config(mm_field=mm.fields.List(fields.Nested(AddressIpv6Inside.schema(unknown=mm.EXCLUDE)))),
-        default_factory=list)
-
-
-@dataclass
-class Interface(DataClassJsonMixin):
-    name: str
-    description: str = field(metadata=config(mm_field=mm.fields.String(data_key='description', load_default=str)))
-    type: str
-    enabled: bool
-    ip_address_1: AddressIpv4 = field(
-        metadata=config(mm_field=mm.fields.Nested(AddressIpv4.schema(unknown=mm.EXCLUDE), data_key='ietf-ip:ipv4')))
-    ip_address_2: AddressIpv6 = field(
-        metadata=config(mm_field=mm.fields.Nested(AddressIpv6.schema(unknown=mm.EXCLUDE), data_key='ietf-ip:ipv6')))
+# Setting URL
+set_url = f'{protocol(args.ssl)}://{args.host}:{args.port}/get-all-interfaces'
+url_check(set_url)
 
 
 class InterfaceManager:
-    def __init__(self, url="http://127.0.0.1:5000/get-all-interfaces"):
-        self.api_url = url
+    def __init__(self, api_url=set_url):
+        self.api_url = api_url
         self.interface_schema = Interface.schema()
-        self.parsed_data = self.get_all_interfaces()
+        self.parsed_data = self._get_all_interfaces()
 
-    def get_all_interfaces(self) -> List[Interface]:
+    def _get_all_interfaces(self) -> List[Interface]:
         response = requests.get(self.api_url)
         parsed_interfaces = self.interface_schema.loads(json_data=response.text, many=True, unknown=EXCLUDE)
         return parsed_interfaces
 
-    def analyze(self):
+    def analyze(self) -> Dict:
         enabled_count = 0
         types = {}
         missing_ipv4, missing_ipv6 = [], []
@@ -98,12 +73,17 @@ class InterfaceManager:
                 'missing_completely_both': {'count': len(no_ip_addresses), 'interfaces': [no_ip_addresses]}}}
         return logg_dict
 
-    def write_all_data(self):
+    def write_all_data(self) -> None:
         with open('output_folder/output_data.json', 'w') as f:
             f.write(self.interface_schema.dumps(self.parsed_data, many=True, ensure_ascii=False, indent=4))
         with open('output_folder/logg_data.json', 'w') as f:
             json.dump(self.analyze(), f, ensure_ascii=False, indent=4)
 
 
-interface_manager = InterfaceManager()
-interface_manager.write_all_data()
+def main():
+    interface_manager = InterfaceManager()
+    interface_manager.write_all_data()
+
+
+if __name__ == "__main__":
+    main()
