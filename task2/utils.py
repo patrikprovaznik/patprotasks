@@ -15,7 +15,7 @@ def get_logger(log_path, log_name, log_level):
     logger = logging.getLogger(log_name)
     logger.setLevel(level=set_log_level)
 
-    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(module)s - %(levelname)s - %(message)s')
     fh = logging.FileHandler(f"{log_path}", mode="w")
     fh.setFormatter(formatter)
     fh.setLevel(level=set_log_level)
