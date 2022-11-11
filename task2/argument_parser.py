@@ -7,8 +7,6 @@ def arg_pars():
     parser.add_argument('--ssl', action='store_true', help='Set protocol for URL.')
     parser.add_argument('-ho', '--host', dest='host', metavar='HOST', help='Set host for URL.', required=True)
     parser.add_argument('-po', '--port', dest='port', metavar='PORT', help='Set port for URL.', required=True)
-    # parser.add_argument('-nm', '--name', dest='log_name', metavar='LOG_NAME',
-    #                     help='Set logger name that will be displayed in .log file.', required=False, default=__name__)
     parser.add_argument('-pt', '--path', dest='log_path', metavar='LOG_PATH',
                         help="Set path with name for .log file, e.g. /home/Documents/<log_name>.log.", required=False,
                         default="logs/logger_2.log")

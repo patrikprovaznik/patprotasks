@@ -1,4 +1,6 @@
 import json
+import os
+from collections import defaultdict
 from typing import List, Dict
 
 import requests
@@ -7,7 +9,6 @@ from marshmallow import EXCLUDE
 from argument_parser import arg_pars
 from data_type import Interface
 from utils import get_logger
-from collections import defaultdict
 
 
 def protocol(ssl):
@@ -67,9 +68,11 @@ class InterfaceManager:
         return logg_dict
 
     def write_all_data(self) -> None:
-        with open('output_folder/output_data.json', 'w') as f:
+        output_folder = 'output_folder/'
+        os.makedirs(output_folder, exist_ok=True)
+        with open(output_folder + 'output_data.json', 'w') as f:
             f.write(self.interface_schema.dumps(self.parsed_data, many=True, ensure_ascii=False, indent=4))
-        with open('output_folder/logg_data.json', 'w') as f:
+        with open(output_folder + 'log_data.json', 'w') as f:
             json.dump(self.analyze(), f, ensure_ascii=False, indent=4)
 
 
