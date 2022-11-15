@@ -2,19 +2,17 @@ import logging
 import os
 
 
-def get_logger(log_path, log_name, log_level):
-    log_level_info = {'logging.DEBUG': logging.DEBUG,
-                      'logging.INFO': logging.INFO,
-                      'logging.WARNING': logging.WARNING,
-                      'logging.ERROR': logging.ERROR,
-                      }
-    set_log_level = log_level_info.get(log_level, logging.ERROR)
+def get_logger(logs_fold, log_path, log_name, log_level):
+    set_log_level = {'logging.DEBUG': logging.DEBUG,
+                     'logging.INFO': logging.INFO,
+                     'logging.WARNING': logging.WARNING,
+                     'logging.ERROR': logging.ERROR,
+                     }.get(log_level, logging.ERROR)
     logger = logging.getLogger(log_name)
     logger.setLevel(level=set_log_level)
 
-    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    logs_folder = 'logs/'
-    os.makedirs(logs_folder, exist_ok=True)
+    formatter = logging.Formatter(fmt='%(asctime)s - %(name)s -  %(module)s - %(levelname)s - %(message)s')
+    os.makedirs(logs_fold, exist_ok=True)
     fh = logging.FileHandler(f"{log_path}", mode="w")
     fh.setFormatter(formatter)
     fh.setLevel(level=set_log_level)
