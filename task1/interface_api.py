@@ -5,7 +5,7 @@ from flask import Flask, jsonify, request, Response
 
 
 class InterfaceAPI(Flask):
-    def __init__(self, import_name):
+    def __init__(self, import_name: str):
         super(InterfaceAPI, self).__init__(import_name)
         with open('resource/task-1-interfaces.json') as f:
             data = json.loads(f.read())

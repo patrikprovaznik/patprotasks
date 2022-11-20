@@ -1,8 +1,8 @@
-import argparse
+from argparse import ArgumentParser, Namespace
 
 
-def arg_pars():
-    parser = argparse.ArgumentParser(description="Loading arguments.")
+def arg_pars() -> Namespace:
+    parser = ArgumentParser(description="Loading arguments.")
     parser.add_argument('--debug', action='store_true', help='print debug message')
     parser.add_argument('--ssl', action='store_true', help='Set protocol for URL.')
     parser.add_argument('-ho', '--host', dest='host', metavar='HOST', help='Set host for URL.', required=True)

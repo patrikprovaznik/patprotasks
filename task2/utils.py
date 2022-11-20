@@ -1,8 +1,9 @@
 import logging
 import os
+from logging import Logger
 
 
-def get_logger(logs_fold, log_path, log_name, log_level):
+def get_logger(logs_fold: str, log_path: str, log_name: str, log_level: str) -> Logger:
     set_log_level = {'logging.DEBUG': logging.DEBUG,
                      'logging.INFO': logging.INFO,
                      'logging.WARNING': logging.WARNING,

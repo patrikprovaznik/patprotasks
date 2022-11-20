@@ -1,6 +1,8 @@
 import json
 import os
+from argparse import Namespace
 from collections import defaultdict
+from logging import Logger
 from typing import List, Dict
 
 import requests
@@ -11,12 +13,12 @@ from data_type import Interface
 from utils import get_logger
 
 
-def protocol(ssl):
-    return 'https'if ssl else 'http'
+def protocol(ssl: str) -> str:
+    return 'https' if ssl else 'http'
 
 
 class InterfaceManager:
-    def __init__(self, api_url, logger, args):
+    def __init__(self, api_url: str, logger: Logger, args: Namespace) -> None:
         self._api_url = api_url
         self._interface_schema = Interface.schema()
         self._logger = logger
@@ -65,24 +67,6 @@ class InterfaceManager:
         output_folder = self._args.out_fold
         os.makedirs(output_folder, exist_ok=True)
         with open(output_folder + self._args.out_data, 'w') as f:
-            f.write(self._interface_schema.dumps(parsed_data, many=True, ensure_ascii=False, indent=4))
+            f.write(self._interface_schema.dumps(parsed_data, many=True, ensure_ascii=False))
         with open(output_folder + self._args.log_data, 'w') as f:
-            json.dump(self.analyze(), f, ensure_ascii=False, indent=4)
-
-
-def main():
-    # Argument parser
-    args = arg_pars()
-
-    # Logger
-    logger = get_logger(log_path=args.log_path, log_name=__name__, log_level=args.log_level, logs_fold=args.logs_fold)
-
-    # Setting URL
-    set_url = f'{protocol(args.ssl)}://{args.host}:{args.port}/get-all-interfaces'
-
-    interface_manager = InterfaceManager(set_url, logger, args)
-    interface_manager.write_all_data()
-
-
-if __name__ == "__main__":
-    main()
+            json.dump(self.analyze(), f, ensure_ascii=False)
