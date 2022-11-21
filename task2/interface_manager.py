@@ -1,6 +1,5 @@
 import json
 import os
-from argparse import Namespace
 from collections import defaultdict
 from logging import Logger
 from typing import List, Dict
@@ -8,17 +7,15 @@ from typing import List, Dict
 import requests
 from marshmallow import EXCLUDE
 
-from argument_parser import arg_pars
 from data_type import Interface
-from utils import get_logger
 
 
-def protocol(ssl: str) -> str:
+def protocol(ssl: bool) -> str:
     return 'https' if ssl else 'http'
 
 
 class InterfaceManager:
-    def __init__(self, api_url: str, logger: Logger, args: Namespace) -> None:
+    def __init__(self, api_url: str, logger: Logger, args: Dict) -> None:
         self._api_url = api_url
         self._interface_schema = Interface.schema()
         self._logger = logger
@@ -64,9 +61,9 @@ class InterfaceManager:
 
     def write_all_data(self) -> None:
         parsed_data = self._get_all_interfaces()
-        output_folder = self._args.out_fold
+        output_folder = self._args.get('out_fold', "output_folder/")
         os.makedirs(output_folder, exist_ok=True)
-        with open(output_folder + self._args.out_data, 'w') as f:
+        with open(output_folder + self._args.get('out_data', "output_data.json"), 'w') as f:
             f.write(self._interface_schema.dumps(parsed_data, many=True, ensure_ascii=False))
-        with open(output_folder + self._args.log_data, 'w') as f:
+        with open(output_folder + self._args.get('log_data', "log_data.json"), 'w') as f:
             json.dump(self.analyze(), f, ensure_ascii=False)
