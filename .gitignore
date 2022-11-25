@@ -1,2 +1,4 @@
 .idea/
 *.log
+logs/
+output_folder/
