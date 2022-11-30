@@ -5,15 +5,14 @@ from typing import Tuple
 
 from flask import Flask, jsonify, request, Response
 
-from utils import get_logger
+from task2.utils import get_logger
 
 # config
 conf = ConfigParser()
 conf.read("flask_app_config.ini")
-
 # logger
-logger = get_logger(log_path=conf['general']['log_path_1'], log_name=conf['general']['log_name'],
-                    log_level=conf['general']['log_level'])
+logger = get_logger(log_path=conf['general']['log_path_1'], log_name=__name__, log_level=conf['general']['log_level'],
+                    logs_fold=conf['general']['logs_dir'])
 
 
 class InterfaceAPI(Flask):

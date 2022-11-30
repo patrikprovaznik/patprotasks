@@ -15,11 +15,12 @@ def protocol(ssl: bool) -> str:
 
 
 class InterfaceManager:
-    def __init__(self, api_url: str, logger: Logger, args: Dict) -> None:
+    def __init__(self, api_url: str, logger: Logger, args: Dict, conf) -> None:
         self._api_url = api_url
         self._interface_schema = Interface.schema()
         self._logger = logger
         self._args = args
+        self._conf = conf
 
     def _get_all_interfaces(self) -> List[Interface]:
         try:
@@ -61,9 +62,9 @@ class InterfaceManager:
 
     def write_all_data(self) -> None:
         parsed_data = self._get_all_interfaces()
-        output_folder = self._args.get('out_fold', "output_folder/")
+        output_folder = self._args.get('out_fold', self._conf['interface_manager']['output_folder'])
         os.makedirs(output_folder, exist_ok=True)
-        with open(output_folder + self._args.get('out_data', "output_data.json"), 'w') as f:
+        with open(output_folder + self._args.get('out_data', self._conf['interface_manager']['output_data']), 'w') as f:
             f.write(self._interface_schema.dumps(parsed_data, many=True, ensure_ascii=False))
-        with open(output_folder + self._args.get('log_data', "log_data.json"), 'w') as f:
+        with open(output_folder + self._args.get('log_data', self._conf['interface_manager']['log_data']), 'w') as f:
             json.dump(self.analyze(), f, ensure_ascii=False)
