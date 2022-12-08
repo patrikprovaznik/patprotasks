@@ -9,16 +9,16 @@ from task2.utils import get_logger
 
 # config
 conf = ConfigParser()
-conf.read("flask_app_config.ini")
+conf.read("../resource/flask_app_config.ini")
 # logger
-logger = get_logger(log_path=conf['general']['log_path_1'], log_name=__name__, log_level=conf['general']['log_level'],
-                    logs_fold=conf['general']['logs_dir'])
+logger = get_logger(log_path=conf['General']['log_path_1'], log_name=__name__, log_level=conf['General']['log_level'],
+                    logs_fold=conf['General']['logs_dir'])
 
 
 class InterfaceAPI(Flask):
     def __init__(self, import_name: str):
         super(InterfaceAPI, self).__init__(import_name)
-        with open('resource/task-1-interfaces.json') as f:
+        with open(conf['General']['json_path']) as f:
             data = json.loads(f.read())
             interfaces = data['ietf-interfaces:interfaces']['interface']
             self.cache = {interface['name']: interface for interface in interfaces}
@@ -80,9 +80,10 @@ def delete_interface(interface_name: str) -> Tuple[Response, int]:
 
 
 def main():
-    app.config['SECRET_KEY'] = conf['flask']['secret_key']
-    app.run(debug=bool(int(conf['general']['app_debug'])), host=conf['flask']['host'],
-            port=int(conf['flask']['port']))
+    app.config['SECRET_KEY'] = conf['Flask']['secret_key']
+    app.run(debug=conf['General'].getboolean('app_debug'), host=conf['Flask']['host'],
+            port=int(conf['Flask']['port']))
+    # bool(int(conf['General']['app_debug']))
 
 
 if __name__ == '__main__':

@@ -23,5 +23,7 @@ def arg_pars() -> Namespace:
     parser.add_argument('-ld', '--log_data', dest='log_data', metavar='LOG_DATA',
                         help="Set name for log data file in .json format, e.g. log_data.json.", required=False,
                         default="log_data.json")
+    parser.add_argument('-cp', '--conf_path', dest='conf_path', metavar='CONF_PATH', required=False,
+                        help="Set path of your config file.", default="../resource/flask_app_config.ini")
 
     return parser.parse_args()
