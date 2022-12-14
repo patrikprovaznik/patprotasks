@@ -1,6 +1,6 @@
 import http
 import json
-from configparser import ConfigParser
+from configparser import ConfigParser, ExtendedInterpolation
 from typing import Tuple
 
 from flask import Flask, jsonify, request, Response
@@ -8,7 +8,7 @@ from flask import Flask, jsonify, request, Response
 from task2.utils import get_logger
 
 # config
-conf = ConfigParser()
+conf = ConfigParser(interpolation=ExtendedInterpolation())
 conf.read("../resource/flask_app_config.ini")
 # logger
 logger = get_logger(log_path=conf['General']['log_path_1'], log_name=__name__, log_level=conf['General']['log_level'],
@@ -83,7 +83,6 @@ def main():
     app.config['SECRET_KEY'] = conf['Flask']['secret_key']
     app.run(debug=conf['General'].getboolean('app_debug'), host=conf['Flask']['host'],
             port=int(conf['Flask']['port']))
-    # bool(int(conf['General']['app_debug']))
 
 
 if __name__ == '__main__':

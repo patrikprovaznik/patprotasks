@@ -1,3 +1,4 @@
 Flask==2.2.2
 marshmallow==3.18.0
 requests==2.25.1
+httpretty==1.1.4

@@ -1,30 +1,19 @@
 import json
 import unittest
+
 from interface_api import app
 
 
 class FlaskAppTest(unittest.TestCase):
-    test_post_data = {
-        "input": {
-            "interfaces": [{
-                "name": "FastEthernet0/0/1",
-                "type": "ianaift:ethernetCsmacd"
-            },
-                {
-                    "name": None,
-                    "type": "ianaift:ethernetCsmacd",
-                    "enabled": False
-                }]
-        }
-    }
-    with open('resource/task-1-interfaces.json') as f:
-        data = json.loads(f.read())
-        interfaces = data['ietf-interfaces:interfaces']['interface']
 
     def setUp(self):
+        with open('../resource/task-1-interfaces.json') as f:
+            data = json.loads(f.read())
+            self.interfaces = data['ietf-interfaces:interfaces']['interface']
         self.ctx = app.app_context()
         self.ctx.push()
         self.client = app.test_client()
+        self.client.application.cache = {interface['name']: interface for interface in self.interfaces}
 
     def tearDown(self):
         self.ctx.pop()
@@ -42,6 +31,19 @@ class FlaskAppTest(unittest.TestCase):
         self.assertTrue(response.json in self.interfaces)
 
     def test_get_interfaces(self):
+        self.test_post_data = {
+            "input": {
+                "interfaces": [{
+                    "name": "FastEthernet0/0/1",
+                    "type": "ianaift:ethernetCsmacd"
+                },
+                    {
+                        "name": None,
+                        "type": "ianaift:ethernetCsmacd",
+                        "enabled": False
+                    }]
+            }
+        }
         response = self.client.post('/get-interfaces', json=self.test_post_data)
         self.assertEqual(response.status_code, 200)
 
